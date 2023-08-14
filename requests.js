@@ -38,17 +38,28 @@
 //     request.send();
 // })
 //
-const getPuzzle = ()=>{
-    return fetch('https://puzzle.mead.io/puzzle',{}).then((response)=>{
-        if (response.status === 200) {
-            return response.json()
-        }else{
-            throw new Error('failed to fetch data');
-        }
-    }).then((data)=>{
+// const getPuzzleOld = ()=>{
+//     return fetch('https://puzzle.mead.io/puzzle',{}).then((response)=>{
+//         if (response.status === 200) {
+//             return response.json()
+//         }else{
+//             throw new Error('failed to fetch data');
+//         }
+//     }).then((data)=>{
+//         return data.puzzle;
+//     });
+// }
+
+const getPuzzle = async ()=> {
+    const response = await fetch('https://puzzle.mead.io/puzzle');
+    if (response.status === 200){
+        const data = await response.json();
         return data.puzzle;
-    });
+    }else{
+        throw new Error('failed to fetch data');
+    }
 }
+
 const countriesURL = 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18';
 //
 const fetchCountryDetails = (countryCode) => fetch(countriesURL, {}).then((response)=>{
@@ -65,6 +76,22 @@ const fetchCountryDetails = (countryCode) => fetch(countriesURL, {}).then((respo
         throw new Error(`No country for code ${countryCode}`);
     }
 })
+// const fetchCountryDetails = async (countryCode) => {
+//     const response = await fetch(countriesURL,{});
+//     if (response.status === 200) {
+//         //console.log(response.json());
+//         const countries = response.json();
+//         const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
+//         if (targetCountry) {
+//             return targetCountry
+//         }else {
+//             throw new Error(`No country for code ${countryCode}`);
+//         }
+        
+//     }else{
+//         throw new Error('failed to fetch country data');
+//     }
+// }
 
 const ipInfoUrl = "https://ipinfo.io/json?token=78f45cc8afb918";
 const getLocation = ()=>fetch(ipInfoUrl).then((response)=>{

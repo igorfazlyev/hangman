@@ -28,13 +28,13 @@ fetchCountry.addEventListener('click', (e)=>{
       });
    }
 })
-getLocation().then((location)=>{
-  return fetchCountryDetails(location.country);
-}).then((countryDetails)=>{
-  renderLocation(`You're accessing the page from ${countryDetails.name}(${countryDetails.alpha2Code})`);
-}).catch((err)=>{
-  renderLocation(err);
-})
+// getLocation().then((location)=>{
+//   return fetchCountryDetails(location.country);
+// }).then((countryDetails)=>{
+//   renderLocation(`You're accessing the page from ${countryDetails.name}(${countryDetails.alpha2Code})`);
+// }).catch((err)=>{
+//   renderLocation(err);
+// })
 
 
 
