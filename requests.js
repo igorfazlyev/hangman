@@ -49,32 +49,58 @@ const getPuzzle = ()=>{
         return data.puzzle;
     });
 }
+const countriesURL = 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18';
 //
-const getCountryDetails =(countryCode)=> new Promise((resolve, reject)=>{
-    const request = new XMLHttpRequest();
-
-    request.addEventListener('readystatechange', (e) => {
-
-    if (e.target.readyState === 4 && e.target.status === 200) {
-        const countries = JSON.parse(e.target.responseText);
-        const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
-        if (targetCountry) {
-            resolve(targetCountry);
-        }else{
-            reject((new Error("no country with this code")));
-        }
-        
-        //console.log(countries[0]);
-    } else if (e.target.readyState === 4) {
-        reject((new Error("failed to get country")));
+const fetchCountryDetails = (countryCode) => fetch(countriesURL, {}).then((response)=>{
+    if (response.status === 200) {
+        return response.json();
+    }else{
+        throw new Error('failed to fetch country data');
     }
-    })
-
-    request.open('GET', 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18');
-    //access_key=c054e39030e6b475de636b1bc5b95e18
-    //request.setRequestHeader('access_key','c054e39030e6b475de636b1bc5b95e18');
-    request.send();
+}).then((countries)=>{
+    const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
+    if (targetCountry) {
+        return targetCountry
+    }else{
+        throw new Error(`No country for code ${countryCode}`);
+    }
 })
+
+const ipInfoUrl = "https://ipinfo.io/json?token=78f45cc8afb918";
+const getLocation = ()=>fetch(ipInfoUrl).then((response)=>{
+    if (response.status === 200){
+        return response.json()
+    }else{
+        throw new Error('failed to fetch IP data');
+    }
+})
+
+//
+// const getCountryDetails =(countryCode)=> new Promise((resolve, reject)=>{
+//     const request = new XMLHttpRequest();
+
+//     request.addEventListener('readystatechange', (e) => {
+
+//     if (e.target.readyState === 4 && e.target.status === 200) {
+//         const countries = JSON.parse(e.target.responseText);
+//         const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
+//         if (targetCountry) {
+//             resolve(targetCountry);
+//         }else{
+//             reject((new Error("no country with this code")));
+//         }
+        
+//         //console.log(countries[0]);
+//     } else if (e.target.readyState === 4) {
+//         reject((new Error("failed to get country")));
+//     }
+//     })
+
+//     request.open('GET', 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18');
+//     //access_key=c054e39030e6b475de636b1bc5b95e18
+//     //request.setRequestHeader('access_key','c054e39030e6b475de636b1bc5b95e18');
+//     request.send();
+// })
 
 // const getCountryDetails = (countryCode, callback)=> {
 //     const request = new XMLHttpRequest();
