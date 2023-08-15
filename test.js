@@ -38,3 +38,8 @@ fetchCountry.addEventListener('click', (e)=>{
 
 
 
+getCurrentcountry().then((country)=>{
+  renderLocation(`Your current country is ${country.name}, (${country.alpha2Code})`);
+}).catch(err=>{
+  renderLocation(err);
+})

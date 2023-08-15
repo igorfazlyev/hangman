@@ -60,48 +60,64 @@ const getPuzzle = async ()=> {
     }
 }
 
-const countriesURL = 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18';
+//const countriesURL = 'http://api.countrylayer.com/v2/all?access_key=c054e39030e6b475de636b1bc5b95e18';
+const countriesURL = 'http://api.countrylayer.com/v2/all?access_key=908b9e03f5b5c4c5608152d1eed88090';
 //
-const fetchCountryDetails = (countryCode) => fetch(countriesURL, {}).then((response)=>{
-    if (response.status === 200) {
-        return response.json();
-    }else{
-        throw new Error('failed to fetch country data');
-    }
-}).then((countries)=>{
-    const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
-    if (targetCountry) {
-        return targetCountry
-    }else{
-        throw new Error(`No country for code ${countryCode}`);
-    }
-})
-// const fetchCountryDetails = async (countryCode) => {
-//     const response = await fetch(countriesURL,{});
+// const fetchCountryDetails = (countryCode) => fetch(countriesURL, {}).then((response)=>{
 //     if (response.status === 200) {
-//         //console.log(response.json());
-//         const countries = response.json();
-//         const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
-//         if (targetCountry) {
-//             return targetCountry
-//         }else {
-//             throw new Error(`No country for code ${countryCode}`);
-//         }
-        
+//         return response.json();
 //     }else{
 //         throw new Error('failed to fetch country data');
 //     }
-// }
+// }).then((countries)=>{
+//     const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
+//     if (targetCountry) {
+//         return targetCountry
+//     }else{
+//         throw new Error(`No country for code ${countryCode}`);
+//     }
+// })
+const fetchCountryDetails = async (countryCode) => {
+    const response = await fetch(countriesURL,{});
+    if (response.status === 200) {
+        //console.log(response.json());
+        const countries = await response.json();
+        //console.log(countries);
+        const targetCountry = countries.find((elem)=>elem.alpha2Code === countryCode);
+        if (targetCountry) {
+            return targetCountry
+        }else {
+            throw new Error(`No country for code ${countryCode}`);
+        }
+        
+    }else{
+        throw new Error('failed to fetch country data');
+    }
+}
 
 const ipInfoUrl = "https://ipinfo.io/json?token=78f45cc8afb918";
-const getLocation = ()=>fetch(ipInfoUrl).then((response)=>{
-    if (response.status === 200){
-        return response.json()
+// const getLocation = ()=>fetch(ipInfoUrl).then((response)=>{
+//     if (response.status === 200){
+//         return response.json()
+//     }else{
+//         throw new Error('failed to fetch IP data');
+//     }
+// })
+const getLocation = async ()=>{
+    const response = await fetch(ipInfoUrl);
+    if (response.status === 200) {
+        const locationInfo = await response.json();
+        return locationInfo;
     }else{
         throw new Error('failed to fetch IP data');
     }
-})
+}
 
+const getCurrentcountry = async ()=> {
+    const location = await getLocation();
+    return fetchCountryDetails(location.country);
+    //return country;
+}
 //
 // const getCountryDetails =(countryCode)=> new Promise((resolve, reject)=>{
 //     const request = new XMLHttpRequest();
