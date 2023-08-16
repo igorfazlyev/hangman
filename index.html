@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>Hangman</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>HangMan Game</title>
 </head>
 <body>
     <div class="container">
-        <h1>Hangman</h1>
-        <div id="reset">
-            <button id="reset-btn">Reset</button>
+        <div class="puzzle">
+            <h1>Hangman</h1>
         </div>
+        
+     
         <div id="puzzle">
 
         </div>
-       
+       <div id="status-message"></div>
+        
+        <div id="reset" >
+            <button id="reset-btn" class="button">Reset</button>
+        </div>
     </div>
-    <script src="./requests.js"></script>
-    <script src="./hangman.js"></script>
-    <script src="./app.js"></script>
+    <script src="./scripts/requests.js"></script>
+    <script src="./scripts/hangman.js"></script>
+    <script src="./scripts/app.js"></script>
 </body>
 </html>

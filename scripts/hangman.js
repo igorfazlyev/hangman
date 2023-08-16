@@ -43,12 +43,12 @@ class Hangman {
 
     get statusMessage(){
         if (this.status === 'playing') {
-            return generateGameDom(`guesses left: ${this.guessesLeft}`, 'h5');
+            return `guesses left: ${this.guessesLeft}`;
         };
         if (this.status === 'finished') {
-            return generateGameDom("You got it", 'h5', 'blue');
+            return "You got it";
         };
-        return generateGameDom(`You failed, the word was "${this.word.join('')}"`,'h5', 'red');
+        return `You failed, the word was "${this.word.join('')}"`;
     }
 }
 
@@ -57,17 +57,3 @@ class Hangman {
 //end of Hangman
 //utility functions
 
-function generateGameDom(contents, elem = "h3", color='black') {
-    const gameDom = document.createElement(elem);
-    gameDom.textContent = contents;
-    gameDom.style.color = color;
-    return gameDom;
-}
-
-const renderGame = (game)=>{
-    //game.updateStatus();
-    const puzzleElement = document.querySelector("#puzzle");
-    puzzleElement.innerHTML = "";
-    puzzleElement.appendChild(generateGameDom(game.puzzle));
-    puzzleElement.appendChild(game.statusMessage);
-}
